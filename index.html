@@ -1,0 +1,223 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Shadow - Shop Uy Tín</title>
+    <style>
+        /* CSS phong cách Cyberpunk / Dark Mode */
+        :root {
+            --bg-dark: #0f0c29;
+            --card-bg: #1a1a2e;
+            --neon-blue: #00d2ff;
+            --neon-purple: #9d50bb;
+            --text-white: #e0e0e0;
+        }
+
+        body {
+            background: linear-gradient(to bottom, #0f0c29, #302b63, #24243e);
+            color: var(--text-white);
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            margin: 0;
+            padding: 0;
+        }
+
+        /* Menu 3 gạch */
+        .navbar {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 15px 20px;
+            background: rgba(0, 0, 0, 0.5);
+            backdrop-filter: blur(10px);
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+        }
+
+        .menu-icon {
+            font-size: 24px;
+            cursor: pointer;
+        }
+
+        .side-menu {
+            position: fixed;
+            left: -250px;
+            top: 0;
+            width: 250px;
+            height: 100%;
+            background: var(--card-bg);
+            transition: 0.3s;
+            padding-top: 60px;
+            box-shadow: 2px 0 10px rgba(0,0,0,0.5);
+        }
+
+        .side-menu a {
+            display: block;
+            padding: 15px 25px;
+            color: white;
+            text-decoration: none;
+            border-bottom: 1px solid #333;
+        }
+
+        /* Card mặt hàng */
+        .container { padding: 20px; }
+        .product-card {
+            background: var(--card-bg);
+            border-radius: 15px;
+            padding: 15px;
+            margin-bottom: 20px;
+            border: 1px solid var(--neon-blue);
+            box-shadow: 0 0 10px var(--neon-blue);
+        }
+
+        .product-img {
+            width: 100%;
+            border-radius: 10px;
+            height: 200px;
+            object-fit: cover;
+        }
+
+        .btn {
+            background: linear-gradient(45deg, var(--neon-blue), var(--neon-purple));
+            border: none;
+            color: white;
+            padding: 10px 20px;
+            border-radius: 5px;
+            cursor: pointer;
+            width: 100%;
+            margin-top: 10px;
+            font-weight: bold;
+        }
+
+        /* Social buttons */
+        .social-btns {
+            display: flex;
+            gap: 10px;
+            margin-top: 20px;
+        }
+        .btn-tele { background: #0088cc; }
+        .btn-zalo { background: #0068ff; }
+
+        /* Admin Section */
+        #admin-panel {
+            display: none;
+            background: #222;
+            padding: 20px;
+            margin-top: 50px;
+            border: 2px dashed red;
+        }
+    </style>
+</head>
+<body>
+
+<div class="navbar">
+    <div class="menu-icon" onclick="toggleMenu()">☰</div>
+    <div class="logo">SHADOW.COM</div>
+    <div id="user-info">Số dư: 0đ</div>
+</div>
+
+<div class="side-menu" id="sideMenu">
+    <a href="#" onclick="showSection('home')">Trang Chủ</a>
+    <a href="#" onclick="showSection('history')">Lịch Sử Giao Dịch</a>
+    <a href="#" onclick="showSection('payment')">Lịch Sử Thanh Toán</a>
+    <a href="#" onclick="showSection('admin-login')">Quản Lý Admin</a>
+</div>
+
+<div class="container">
+    <div class="social-btns">
+        <button class="btn btn-tele" onclick="window.location.href='https://t.me/+ktWnTQrZAKthYmZl'">Telegram</button>
+        <button class="btn btn-zalo" onclick="window.location.href='https://zalo.me/84364684151'">Zalo Admin</button>
+    </div>
+
+    <div id="products">
+        <div class="product-card">
+            <img src="lv5.jpg" class="product-img" alt="Acc Lv5">
+            <h3>Acc Lv5 Google</h3>
+            <p>Đăng nhập Google, sẵn combo kĩ năng nhân vật.</p>
+            <p>Kho: <span id="stock-lv5">10</span></p>
+            <button class="btn" onclick="buyItem('lv5', 2500)">Mua - 2.500đ</button>
+        </div>
+
+        <div class="product-card">
+            <img src="drip.jpg" class="product-img" alt="Drip Silent">
+            <h3>Drip Silent</h3>
+            <p>Menu antiband update thường xuyên. Lưu ý: Log acc clone trước 1 trận.</p>
+            <select id="time-drip" class="btn">
+                <option value="60000">1 Ngày - 60k</option>
+                <option value="100000">7 Ngày - 100k</option>
+                <option value="160000">30 Ngày - 160k</option>
+            </select>
+            <button class="btn" onclick="buyKey('drip')">Mua Ngay</button>
+        </div>
+
+        <div class="product-card">
+            <img src="zygame.jpg" class="product-img" alt="Zygame">
+            <h3>Zygame (FFTH/FFM)</h3>
+            <p>Menu antiband update thường xuyên. Lưu ý: Log acc clone trước 1 trận.</p>
+            <select id="time-zy" class="btn">
+                <option value="30000">1 Ngày - 30k</option>
+                <option value="60000">3 Ngày - 60k</option>
+                <option value="130000">30 Ngày - 130k</option>
+            </select>
+            <button class="btn" onclick="buyKey('zygame')">Mua Ngay</button>
+        </div>
+    </div>
+
+    <div id="admin-panel">
+        <h2>Bảng Điều Khiển Admin</h2>
+        <input type="text" id="key-input" placeholder="Nhập Key mới">
+        <select id="item-type">
+            <option value="drip">Drip Silent</option>
+            <option value="zygame">Zygame</option>
+        </select>
+        <button class="btn" onclick="addKey()">Thêm Key vào hệ thống</button>
+        <hr>
+        <button class="btn" onclick="logoutAdmin()">Thoát Admin</button>
+    </div>
+</div>
+
+<script>
+    // Tự động lưu dữ liệu (Auto-save)
+    let balance = localStorage.getItem('balance') || 0;
+    document.getElementById('user-info').innerText = `Số dư: ${balance}đ`;
+
+    function toggleMenu() {
+        let menu = document.getElementById('sideMenu');
+        menu.style.left = menu.style.left === '0px' ? '-250px' : '0px';
+    }
+
+    function buyKey(type) {
+        let price = document.getElementById(type === 'drip' ? 'time-drip' : 'time-zy').value;
+        if (balance >= price) {
+            balance -= price;
+            localStorage.setItem('balance', balance);
+            alert("Mua thành công! Key của bạn là: " + Math.random().toString(36).substring(7).toUpperCase());
+            document.getElementById('user-info').innerText = `Số dư: ${balance}đ`;
+        } else {
+            alert("Bạn không đủ tiền! Vui lòng nạp thêm.");
+        }
+    }
+
+    // Logic Admin cơ bản
+    function showSection(section) {
+        if(section === 'admin-login') {
+            let user = prompt("Tên đăng nhập Admin:");
+            let pass = prompt("Mật khẩu:");
+            if(user === "shadow+999" && pass === "HV0308hv") {
+                document.getElementById('products').style.display = 'none';
+                document.getElementById('admin-panel').style.display = 'block';
+            } else {
+                alert("Sai tài khoản!");
+            }
+        }
+    }
+
+    function logoutAdmin() {
+        document.getElementById('products').style.display = 'block';
+        document.getElementById('admin-panel').style.display = 'none';
+    }
+</script>
+
+</body>
+</html>
